@@ -1,6 +1,8 @@
 import React from  'react';
+import {Link} from 'react-router-dom';
 import {FaSignInAlt} from 'react-icons/fa'
 import './styles.css';
+
 import logoGrande from '../../assets/logo-grande.svg';
 
 
@@ -15,10 +17,10 @@ export default function Logon(){
 
                     <button className="button" type="submit">Login</button>
 
-                    <a href="/register">
+                    <Link className="link" to="/register">
                     <FaSignInAlt size={16} color="//#0076BF"/>
                      Cadastrar-se
-                    </a>
+                    </Link>
 
                 </form>
             </section>

@@ -59,4 +59,21 @@ form button{
 .button:hover{
     filter: brightness(90%);
 }
+.link{
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: none;
+    font-weight: thin;
+    transition: filter 0.1s;
+}
+.link{
+    filter:brightness(80%);
+}
+.link svg{
+    margin-right: 8px;
+}
 
