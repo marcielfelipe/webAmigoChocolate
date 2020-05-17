@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,useHistory} from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/fa'
 import './styles.css';
-
 import logoGrande from '../../assets/logo-grande.svg';
 import api from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '../../components/spinner';
 
 
 export default function Register(){
@@ -13,28 +15,31 @@ export default function Register(){
     const [email, setEmail]= useState('');
     const [senha, setSenha]= useState('');
 
+    const [spinner,setSpinner]= useState(false);
+    const history = useHistory();
 
     async function handleRegister(e){
         e.preventDefault();
-
         const data ={
             nome,
             dataNascimento,
             email,
             senha
         };
-
-        try{
-            const response = await api.post('usuario',data);
-            alert (response.data.msg);
-        } catch(err){
-            alert ('Erro ao cadastrar usuário.');
+        try {
+            setSpinner(true);
+            const response = await api.post('usuario', data);
+            
+            if (response.data.register) {
+                toast.success(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000, onClose: history.push('/')});
+            } else {
+                toast.warning(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000, onClose: history.push('/')});
+            }
+        } catch (error) {
+            toast.error('Falha de comunicação com o servidor', { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
         }
-        
+        setSpinner(false);
     }
-
-
-
 
     return(
         <div className="register-container">
@@ -65,7 +70,11 @@ export default function Register(){
                         onChange={e=> setSenha(e.target.value)}
                     />
 
-                    <button className="button" type="submit">Cadastrar</button>
+                    <button 
+                        className="button" 
+                        type="submit">
+                            {spinner? <Spinner/>:"Cadastrar"}
+                    </button>
 
                     <Link className="link" to="/">
                     <FaArrowLeft size={16} color="#0076BF"/>
@@ -79,7 +88,7 @@ export default function Register(){
             <section className="logo-principal">
                 <img src={logoGrande} alt="logo Amigo Chocolate"/>
             </section>
-
+            <ToastContainer/>
         </div>
     );
 

@@ -1,0 +1,43 @@
+.geral{
+
+
+}
+
+.groups-container{
+    background:#004F80;
+    width: 50% ;
+    height: 100vh;
+    left: 0px;
+}
+.groups-container h1{
+    font: 400 30px Roboto, sans-serif;
+    color:#fff;
+    text-align: left;
+    padding: 10px;
+    margin-left: 10px;
+}
+.groups-container ul{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    grid-gap: 24px;
+    list-style: none;
+}
+
+.groups-container ul li{
+    background: #fff;
+    border-radius: 10px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    
+}
+.groups-container ul li div{
+    border-radius: 10px;
+    background: rgba(229, 229, 229, 0.75);
+    display: flex;
+    margin-bottom: 10px;
+    margin-right: auto;
+    align-items: center;
+    height: 30%;
+}

@@ -1,0 +1,37 @@
+header{
+    width: 100%;
+    max-width: 1366px;
+    padding:0 30px;
+    background: #002740;
+    align-items: center;
+    display: flex;
+    
+}
+header img{
+    margin-top: 10px;
+    max-width: 150px;
+    margin-bottom: 10px;
+}
+header span{
+    color:#fff;
+    font: 100 18px Roboto, sans-serif;
+    font-size: 30px;
+    margin: 0 auto;
+}
+header svg{
+    background: transparent;
+    padding:0px;
+    margin:0px;
+    transition: 0.1s;
+}
+svg:hover{
+    filter: brightness(80%);
+}
+
+header button{
+    margin-top:0;
+    background: transparent;
+    border-radius:4px;
+    margin-left: 10px;
+    border:0px;
+}
