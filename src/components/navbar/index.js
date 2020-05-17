@@ -5,8 +5,6 @@ import logoBranca from '../../assets/logoBranca.svg';
 import './styles.css';
 
 
-
-
 export default function NavBar(){
     return(
         <header>
@@ -14,6 +12,7 @@ export default function NavBar(){
             <span>Olá Usuário!</span>
             <button type="button">
                 <FaPowerOff size={25} color="#D62525"/>
+                <Link to="/"/>
             </button>
             <button type="button">
                 <FaUser size={25} color="#fff"/>
