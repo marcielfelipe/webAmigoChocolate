@@ -32,6 +32,7 @@ form input{
     border-radius: 6px;
     border: 0px;
     transition: 0.2s;
+    padding:0 12px;
 }
 form input:hover{
     filter: brightness(90%)
