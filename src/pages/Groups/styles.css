@@ -13,7 +13,7 @@
     left: 0px;
 }
 .groups-container h1{
-    font: 400 30px Roboto, sans-serif;
+    font: 300 30px Roboto, sans-serif;
     color:#fff;
     text-align: left;
     padding: 10px;
@@ -22,14 +22,14 @@
 .groups-container ul{
     display: grid;
     grid-template-columns: repeat(1,1fr);
-    grid-gap: 24px;
+    grid-gap: 11px;
     list-style: none;
 }
 
 .groups-container ul li{
     background: #fff;
-    border-radius: 10px;
-    width: 95%;
+    border-radius: 8px;
+    width: 97%;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
@@ -54,4 +54,44 @@
     margin-top: 80px;
     margin-left: auto;
     margin-right: auto 
+}
+.groups-container section{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+.groups-container section strong{
+    margin-right: 5px;
+    color: #002740;
+    font: 500 18px Roboto, sans-serif;
+    
+}
+.groups-container section p{
+    margin-right: 4px;
+    color: #004F80;
+    font: 300 18px Roboto, sans-serif;
+    
+}
+.groups-container section svg{
+    margin-right: 4px;
+
+    
+}
+
+
+.group-header{
+    margin-left: 0px;
+    justify-content: space-between;
+    
+}
+.group-header h2{
+    color: #004F80;
+    margin-left: 10px;
+}
+.group-header svg{
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color:transparent;
+    margin-bottom: 10px;
+    
 }

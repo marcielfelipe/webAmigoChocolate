@@ -23,6 +23,7 @@ header svg{
     padding:0px;
     margin:0px;
     transition: 0.1s;
+    margin-right: 8px;
 }
 svg:hover{
     filter: brightness(80%);
