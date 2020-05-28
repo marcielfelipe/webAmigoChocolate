@@ -77,8 +77,6 @@
 
     
 }
-
-
 .group-header{
     margin-left: 0px;
     justify-content: space-between;
@@ -93,5 +91,18 @@
     margin-top: 10px;
     background-color:transparent;
     margin-bottom: 10px;
+    
+}
+.groupDetails-container{
+    background-color: #004F80;
+    border-radius: 8px;
+    width: 43vw;
+    height: 73vh;
+    margin: 0 auto;
+    margin-top: 4vw;
+}
+
+.itens{
+    margin-left: 5%;
     
 }
