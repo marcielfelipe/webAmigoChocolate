@@ -5,6 +5,58 @@
 .container{
     display: flex;
 }
+.title{
+    justify-content: space-between;
+
+}
+.float-button{
+    position: fixed;
+    bottom: 61px;
+    right:60px;
+    color: #f2f2f2;
+    background-color: #099630;
+    padding: 15px;
+    justify-content: space-between;
+    border-radius: 30px;
+    display: flex;
+    font-size: 16px;
+    cursor: pointer;
+}
+.float-button svg{
+    size: 20px;
+    font-size: 20px;
+}
+.float-button:hover{
+    width: 130px;
+}
+.title button{
+    margin-top: 10px;
+    margin-right: 11px;
+    align-items: center;
+    padding: 10px;
+    border: 0px;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    transition: 0.2s;
+    
+}
+.title button:hover{
+    background-color: #099630;
+    color: #fff
+
+}
+.title svg{
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.title  svg:hover{
+    color: #fff
+}
+.title button textarea{
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
 
 .groups-container{
     background:#004F80;
@@ -35,6 +87,7 @@
     height: 100%;
     
 }
+
 .groups-container ul li div{
     border-radius: 10px;
     background: rgba(229, 229, 229, 0.75);
@@ -44,6 +97,7 @@
     align-items: center;
     height: 30%;
 }
+
 .img-container{
     width: 50% ;
     height: 100vh;
@@ -93,16 +147,97 @@
     margin-bottom: 10px;
     
 }
+
 .groupDetails-container{
-    background-color: #004F80;
+    background-color: #fff;
     border-radius: 8px;
     width: 43vw;
     height: 73vh;
     margin: 0 auto;
     margin-top: 4vw;
 }
+.button-sortear{
+    margin-left: 450px;
+    margin-top: 70px;
+    background-color: #099630;
+    border-radius: 8px;
+    align-items: center;
+    display: flex;
+    padding: 0px;
+    border: 0px;
+    transition:0.2s;
+}
+.button-sortear svg{
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+.button-sortear strong{
+    color: #ECECEC;
+    padding: 10px;
+    
+    
+}
+.button-sortear:hover{
+    filter: opacity(80);
+}
+
+.group-details-header{
+    margin-left: 0px;
+    display: flex;
+    background-color: #ECECEC ;
+    border-radius: 8px;
+}
+.group-details-header h2{
+    color: #004F80;
+    margin-left: 5%;
+    margin-top: 10px;
+}
+.group-details-header section{
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.group-details-header svg{
+    margin-left: 5px;
+    margin-right: 10px;
+    background-color:transparent;
+    
+}
 
 .itens{
-    margin-left: 5%;
-    
+    margin-left: 10px; 
+}
+.itens section{
+    display: flex;
+    padding: 8px;
+}
+.itens section strong{
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+.itens section p{
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+
+.itens ul{
+    margin-left: 15px;
+    display: grid;
+    grid-template-columns: repeat(4,3fr);
+    grid-gap: 3px;
+    list-style: none;
+
+}
+.itens ul li{
+    display: flex;
+
+  
+}
+.itens ul li p{
+    margin-left: 5px;
+    justify-content: baseline;
+  
 }
