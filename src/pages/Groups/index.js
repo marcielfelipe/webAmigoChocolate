@@ -3,22 +3,49 @@ import {Link,useHistory} from 'react-router-dom';
 import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle, FaCheckDouble,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
-import ReactDOM from 'react-dom';
 import './styles.css';
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '../../components/spinner';
+import api from '../../services/api';
 
 
 export default function Groups(){
     const history=useHistory();
     const [Details, setDetails]=useState(false);
     const [Sortear, setSortear]=useState(false);
-    useEffect(() => {})
+    const [groups, setGroups]=useState([]);
+    const [oneGroup,setOneGroup]=useState([]);
+    const [participantes,setParticipantes]=useState([]);
+    const [idGroup,setidGroup]=useState('');
 
+
+    const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
+    var dataId= {data: {_id:idGroup}};
+    
+    useEffect(()=>{
+        api.get('gruposusuario',auth)
+        .then(response=>{
+            setGroups(response.data);
+        })
+    },[localStorage.token]);
+
+    async function getParticipantes(){
+        console.log(dataId);
+        const response =await api.get('participantes/'+idGroup,auth);
+        setParticipantes(response.data);
+    }
+    function getDetails(group){
+        setDetails(true);
+        setOneGroup(group);
+        setidGroup(group._id);
+        console.log(idGroup);
+        getParticipantes();
+    }
     return(
-        <div className="geral">
+        <div className="geral" >
             <NavBar/>
-            <div className="container">
+            <div className="container-groups" >
                 <section className="groups-container">
                     <section className="title">
                         <h1>Seus grupos:</h1>
@@ -29,29 +56,28 @@ export default function Groups(){
                     </section>
                    
                     <ul>
-                        <li onClick={()=>setDetails(!Details)}>
-                            <div className='group-header'>
-                                <h2>Grupo 1</h2>                          
-                                <FaTrash size={20} color="#D62525"/>
-                            </div>
-                            <section>
-                                <FaUserCog size={23} color="#002740"/>
-                                <strong>Criado por:</strong>
-                                <p>Usuário</p>
-                            </section>
-                            <section>
-                                <FaCalendarAlt size={23} color="002740"/>
-                                <strong>Data do sorteio:</strong>
-                                <p>10/10/2021</p>
-                            </section>
-                        </li>
-                        
-
-                        
+                        {groups.map(group=>(
+                            <li key={group._id} onClick={()=>getDetails(group)}>
+                                <div className='group-header'>
+                                    <h2>{group.nome}</h2>                          
+                                    <FaTrash size={20} color="#D62525"/>
+                                </div>
+                                <section>
+                                    <FaUserCog size={23} color="#002740"/>
+                                    <strong>Criado por:</strong>
+                                    <p>{group.criadoPor}</p>
+                                </section>
+                                <section>
+                                    <FaCalendarAlt size={23} color="002740"/>
+                                    <strong>Data do sorteio:</strong>
+                                    <p>{group.dataSorteio}</p>
+                                </section>
+                            </li>
+                        ))}
                     </ul>
                 </section>
 
-                <section className="img-container">
+                <section className="img-container" >
                     
                 {
                     !Details && <img src={grupoAmigos} alt="grupo Amigos"/>        
@@ -60,7 +86,7 @@ export default function Groups(){
                     Details && 
                     <div className="groupDetails-container">
                         <div className='group-details-header'>
-                            <h2>Grupo 1</h2>  
+                            <h2>{oneGroup.nome}</h2>  
                             <section>
                                 <FaUserPlus size={23} color="#099630"/>
                                 <FaEdit size={23} color="#002740"/>
@@ -73,27 +99,27 @@ export default function Groups(){
                             <section>
                                 <FaUserCog size={23} color="#002740"/>
                                 <strong>Criado por:</strong>
-                                <p>Usuário</p>
+                                <p>{oneGroup.criadoPor}</p>
                             </section>
                             <section>
                                 <FaCalendarAlt size={23} color="002740"/>
                                 <strong>Data do sorteio:</strong>
-                                <p>10/10/2020</p>
+                                <p>{oneGroup.dataSorteio}</p>
                             </section>
                             <section>
                                 <FaCalendarCheck size={23} color="002740"/>
                                 <strong>Data do evento:</strong>
-                                <p>10/12/2020</p>
+                                <p>{oneGroup.dataEvento}</p>
                             </section>
                             <section>
                                 <FaChartLine size={23} color="002740"/>
                                 <strong>Faixa de preço:</strong>
-                                <p>R$10,00 - R$50,00</p>
+                                <p>R${oneGroup.valorMinimo} - R${oneGroup.valorMaximo}</p>
                             </section>
                             <section>
                                 <FaUnlock size={23} color="002740"/>
                                 <strong>Status do Sorteio:</strong>
-                                <p>Em aberto</p> 
+                                <p>{oneGroup.status}</p> 
                             </section>
                             <section>
                                 <FaUsers size={23} color="002740"/>
@@ -101,57 +127,118 @@ export default function Groups(){
                             </section>
 
                             <ul>
+                                {participantes.map(participante=>(
+                                    <li key={participante._id}>
+                                        <FaUserCircle size={23} color="002740"/>
+                                        <p>{participante.nome}</p>
+                                    </li>
+                                ))
+                                }
+                                
+                                
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 1</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 2</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 3</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 4</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 2</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 3</p>
+                                    <p>Participante</p>
                                 </li>
                                 <li>
                                     <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante 4</p>
+                                    <p>Participante</p>
                                 </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                                <li>
+                                    <FaUserCircle size={23} color="002740"/>
+                                    <p>Participante</p>
+                                </li>
+                            
+                                
+
                                 
                             </ul>
 
                         </section>
 
                         <Link to="/registerdraw">
-                        <div className="float-button" 
-                                onMouseOver={() => setSortear(true)} 
-                                onMouseOut={() => setSortear(false)} >
-                            {Sortear ? "Sortear" : ""}
-                            <FaRandom size="20px" />
-                        </div>
-            </Link>
-  
-                            
-                        
-                    
+                            <div className="float-button" 
+                                    onMouseOver={() => setSortear(true)} 
+                                    onMouseOut={() => setSortear(false)} >
+                                {Sortear ? "Sortear" : ""}
+                                <FaRandom size="20px" />
+                            </div>
+                        </Link>
                     </div>
                 }
                    
                     
                 </section>
             </div>
+            <ToastContainer/>
         </div>
     );
 };

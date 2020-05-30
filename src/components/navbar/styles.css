@@ -5,18 +5,24 @@ header{
     background: #002740;
     align-items: center;
     display: flex;
-    
+    justify-content: space-between;
 }
 header img{
     margin-top: 10px;
     max-width: 150px;
     margin-bottom: 10px;
+    cursor: pointer;
+}
+header img:hover{
+    opacity: 0.9;
 }
 header span{
     color:#fff;
     font: 100 18px Roboto, sans-serif;
     font-size: 30px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: 20px;
+    
 }
 header svg{
     background: transparent;
@@ -35,4 +41,7 @@ header button{
     border-radius:4px;
     margin-left: 10px;
     border:0px;
+}
+.name{
+    font: 300 30px Roboto, sans-serif;
 }

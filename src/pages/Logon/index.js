@@ -58,14 +58,13 @@ export default function Logon(){
                         value={senha}
                         onChange={e=> setSenha(e.target.value)}
                     />
-
                     <button className="button" type="submit">
                         {spinner? <Spinner/>: "Login"}
                     </button>
 
                     <Link className="link" to="/register">
-                    <FaSignInAlt size={16} color="#0076BF"/>
-                     Cadastrar-se
+                        <FaSignInAlt size={16} color="#0076BF"/>
+                        Cadastrar-se
                     </Link>
 
                 </form>

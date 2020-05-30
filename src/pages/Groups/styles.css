@@ -1,8 +1,7 @@
 .geral{
-    
 
 }
-.container{
+.container-groups{
     display: flex;
 }
 .title{
@@ -147,14 +146,14 @@
     margin-bottom: 10px;
     
 }
-
 .groupDetails-container{
     background-color: #fff;
     border-radius: 8px;
     width: 43vw;
-    height: 73vh;
+    height: 70vh;
     margin: 0 auto;
     margin-top: 4vw;
+    display: block;
 }
 .button-sortear{
     margin-left: 450px;
@@ -207,6 +206,7 @@
 
 .itens{
     margin-left: 10px; 
+    
 }
 .itens section{
     display: flex;

@@ -13,14 +13,15 @@ export default function NavBar(){
         localStorage.clear();
         history.push('/');
     }
+    const nome=localStorage.getItem('nome');
     return(
         <header>
-            <img src={logoBranca} alt="Amigo Chocolate"/>
-            <span>Olá Usuário!</span>
-
-            <FaPowerOff size={25} color="#D62525" onClick={LogOut}/>
-           
-            <FaUser size={25} color="#fff" onClick={()=>history.push('/')}/>
+            <img src={logoBranca} alt="Amigo Chocolate" onClick={()=>history.push('/groups')}/>
+            <span>Olá <strong className="name">{nome}!</strong></span>
+            <section>
+                <FaUser size={25} color="#fff" onClick={()=>history.push('/myprofile')}/>
+                <FaPowerOff size={25} color="#D62525" onClick={LogOut}/>
+            </section>
 
         </header>
     );
