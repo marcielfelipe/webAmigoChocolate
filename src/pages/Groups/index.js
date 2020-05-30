@@ -1,12 +1,9 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
-import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle, FaCheckDouble,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
 import './styles.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Spinner from '../../components/spinner';
 import api from '../../services/api';
 
 
@@ -18,10 +15,11 @@ export default function Groups(){
     const [oneGroup,setOneGroup]=useState([]);
     const [participantes,setParticipantes]=useState([]);
     const [idGroup,setidGroup]=useState('');
+    const [NameGroup,setNameGroup]=useState('');
 
 
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
-    var dataId= {data: {_id:idGroup}};
+    var dataId= {data: {_id:NameGroup}};
     
     useEffect(()=>{
         api.get('gruposusuario',auth)
@@ -39,8 +37,18 @@ export default function Groups(){
         setDetails(true);
         setOneGroup(group);
         setidGroup(group._id);
+        setNameGroup(group.nome);
         console.log(idGroup);
         getParticipantes();
+    }
+    function handleParticipat(oneGroup){
+        localStorage.setItem('_id',idGroup);
+        localStorage.setItem('nomeGrupo',NameGroup);
+        history.push('/addparticipant');
+    }
+    function handleEditGroup(){
+        localStorage.setItem('_id',idGroup);
+        history.push('/editgroup');
     }
     return(
         <div className="geral" >
@@ -88,8 +96,8 @@ export default function Groups(){
                         <div className='group-details-header'>
                             <h2>{oneGroup.nome}</h2>  
                             <section>
-                                <FaUserPlus size={23} color="#099630"/>
-                                <FaEdit size={23} color="#002740"/>
+                                <FaUserPlus size={23} color="#099630" onClick={(oneGroup)=>handleParticipat(oneGroup)}/>
+                                <FaEdit size={23} color="#002740" onClick={handleEditGroup}/>
                                 <FaTrash size={20} color="#D62525"/>
                             </section>                  
                             
@@ -133,97 +141,9 @@ export default function Groups(){
                                         <p>{participante.nome}</p>
                                     </li>
                                 ))
-                                }
-                                
-                                
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                                <li>
-                                    <FaUserCircle size={23} color="002740"/>
-                                    <p>Participante</p>
-                                </li>
-                            
-                                
-
-                                
+                                }                          
                             </ul>
-
                         </section>
-
                         <Link to="/registerdraw">
                             <div className="float-button" 
                                     onMouseOver={() => setSortear(true)} 
@@ -238,7 +158,6 @@ export default function Groups(){
                     
                 </section>
             </div>
-            <ToastContainer/>
         </div>
     );
 };

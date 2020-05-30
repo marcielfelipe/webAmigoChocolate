@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Groups from './pages/Groups';
 import NewGroup from './pages/NewGroup';
 import MyProfile from './pages/MyProfile';
+import AddParticipant from './pages/AddParticipant';
+import EditGroup from './pages/EditGroup';
 
 export default function Routes(){
     return(
@@ -16,6 +18,8 @@ export default function Routes(){
                 <Route path="/groups" component={Groups}/>
                 <Route path="/newgroup" component={NewGroup}/>
                 <Route path="/myprofile" component={MyProfile}/>
+                <Route path="/addparticipant" component={AddParticipant}/>
+                <Route path="/editgroup" component={EditGroup}/>
             </Switch>       
         </BrowserRouter>
     );

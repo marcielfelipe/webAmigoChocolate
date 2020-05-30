@@ -1,6 +1,7 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import {FaUserEdit} from 'react-icons/fa';
 import NavBar from  '../../components/navbar';
 import './styles.css';
 import Spinner from '../../components/spinner';
@@ -25,7 +26,7 @@ export default function MyProfile(){
             
             setEmail(response.data.email);
         } catch (error) {
-            toast.error('Falha de comunicação com o servidor', { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
+            toast.error('Faça login novamente!', { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
         }
         setSpinner(false);
     }
@@ -45,7 +46,8 @@ export default function MyProfile(){
             setSpinner(true);
             const response = await api.put('usuario', data,auth);
             const pass = await api.put('editsenha',alterPass,auth);
-            if (response.data.register) {
+            if (response.data.status&&pass.data.status) {
+                toast.success(pass.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000, onClose: history.push('/')});
                 toast.success(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000, onClose: history.push('/')});
             } else {
                 toast.warning(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000, onClose: history.push('/')});
@@ -61,6 +63,7 @@ export default function MyProfile(){
         <div className="container-myprofile">
             <NavBar/>
             <div className="myprofile">
+                <FaUserEdit size={250} color={'#002740'}/>
                 <section>
                     <form onSubmit={handleAlter}>
                         <input 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link,useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {FaPowerOff,FaUser} from 'react-icons/fa';
 import logoBranca from '../../assets/logoBranca.svg';
 import './styles.css';

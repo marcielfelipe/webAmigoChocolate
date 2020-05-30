@@ -1,50 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React,{useState,useEffect} from 'react';
+import {Link,useHistory} from 'react-router-dom';
+import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import NavBar from  '../../components/navbar';
 import './styles.css';
-import api from  '../../services/api';
+import api from '../../services/api';
 import Spinner from '../../components/spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function NewGroup(){
+
+export default function EditGroup(){
     const [nome,setNome]=useState('');
     const [dataSorteio,setDataSorteio]=useState('');
     const [dataEvento,setDataEnvento]=useState('');
     const [valorMinimo ,setValorMinimo]=useState('');
     const [valorMaximo ,setValorMaximo]=useState('');
+    
+
 
     const [spinner,setSpinner]= useState(false);
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
 
-    async function handleNewGroup(e){
-        e.preventDefault();
-        const data={
-            nome,
-            dataSorteio,
-            dataEvento,
-            valorMinimo,
-            valorMaximo
-        }
+    useEffect(()=>{
+        api.get('grupo/'+localStorage._id,auth)
+        .then(response=>{
+        })
+    },[localStorage._id]);
 
-        try {
-            setSpinner(true);
-            const response = await api.post('grupo',data,auth);
-            if(response.data.status)
-                toast.success(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
-            else
-                toast.warning(response.data.msg, { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
-        } catch (error) {
-            toast.error('Erro de conexão com o servidor', { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
-        }
-        setSpinner(false);
-    }
 
-    return(  
+    return(
         <div >     
             <NavBar/> 
-            <div className="container-new-group">
-                <section className="form-new-group">
-                    <form onSubmit={handleNewGroup}>
+            <div className="container-edit-group">
+                <section className="form-edit-group">
+                    <form>
                         <strong>Nome do Grupo:</strong>
                         <input 
                             type="text" 
@@ -90,6 +79,9 @@ export default function NewGroup(){
             </div>      
             <ToastContainer/>
         </div>
-    );
 
-};
+
+
+
+    );
+}

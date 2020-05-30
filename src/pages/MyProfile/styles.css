@@ -4,6 +4,10 @@
     align-items: center;
     justify-content: center;
 }
+.myprofile SVG{
+    margin-right: 100px;
+
+}
 
 .myprofile section {
     width: 380px;
@@ -26,7 +30,7 @@
     color: #fff;
 }
 .myprofile form button{
-    margin-top:50px;
+    margin-top:25px;
     width: 100%;
     transition: 0.2s;
 }
