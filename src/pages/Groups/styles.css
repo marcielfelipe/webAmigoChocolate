@@ -49,6 +49,12 @@
     margin-left: 5px;
     margin-bottom: 5px;
 }
+.title section svg {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+
 .title  svg:hover{
     color: #fff
 }
@@ -58,7 +64,7 @@
 }
 
 .groups-container{
-    background:#004F80;
+    background:#0076BF;
     width: 50% ;
     height: 100vh;
     left: 0px;
@@ -70,7 +76,7 @@
     padding: 10px;
     margin-left: 10px;
 }
-.groups-container ul{
+.groups-container ul {
     display: grid;
     grid-template-columns: repeat(1,1fr);
     grid-gap: 11px;
@@ -147,13 +153,16 @@
     
 }
 .groupDetails-container{
+    position: fixed;
+    bottom: 47px;
+    right:50px;
     background-color: #fff;
     border-radius: 8px;
     width: 43vw;
     height: 70vh;
-    margin: 0 auto;
-    margin-top: 4vw;
+
     display: block;
+    left: px;
 }
 
 .group-details-header{

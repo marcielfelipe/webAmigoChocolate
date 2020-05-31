@@ -1,0 +1,48 @@
+.container-edit-group{
+    display: flex;
+    height: 80vh;
+    align-items: center;
+    justify-content: center;
+}
+.container-edit-group svg{
+    margin-top: -375px;
+}
+.form-edit-group{
+    width: 380px;
+    height: 470px;  
+    max-width: 600px;
+    background: #004F80;
+    margin-top: 60px;
+    margin-right: 30px;
+    background: #004F80;
+}
+
+.form-edit-group form{
+    padding: 20px;
+}
+.form-edit-group form input{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.form-edit-group form strong{  
+    font: 400 17px Roboto, sans-serif;
+    color: #fff;
+}
+.form-edit-group form button{
+    margin-top:20px;
+    width: 100%;
+    transition: 0.2s;
+}
+.form-edit-group form button:hover{
+    background-color:#002740 ;
+}
+
+.form-edit-group form div{
+    display: flex;
+}
+.form-edit-group form div section{
+    margin:4px
+}
+.form-edit-group form div section input{
+    width: 100;
+}

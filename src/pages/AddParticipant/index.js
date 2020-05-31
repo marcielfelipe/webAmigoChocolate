@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
+import {FaAngleLeft,FaTimesCircle,FaCheckCircle} from 'react-icons/fa'
 import NavBar from  '../../components/navbar';
 import './styles.css';
 import api from '../../services/api';
@@ -39,11 +40,12 @@ export default function AddParticipant(){
     return(
         <div>
             <NavBar/>
-
+            
             <div className="participante-container">
                 
                 
                 <img src={participants} alt="add Participantes"/>
+                <FaAngleLeft size={50}color="#004F80" onClick={()=>history.goBack()}/>
                 <div className="participante">
                     <h2>
                         Adicionando ao grupo: <br></br>

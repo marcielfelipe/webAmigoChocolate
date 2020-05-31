@@ -1,13 +1,19 @@
 import React,{useState,useEffect} from 'react';
+import Popup from "reactjs-popup";
 import {Link,useHistory} from 'react-router-dom';
-import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
 import './styles.css';
 import api from '../../services/api';
+import PopUp from'../../components/PopUp';
+import PopUpDesejo from'../../components/PopUpDesejo';
+
 
 
 export default function Groups(){
+    const [popup,setpopup]=useState(false);
+    const [popupDesejo,setpopupDesejo]=useState(false);
     const history=useHistory();
     const [Details, setDetails]=useState(false);
     const [Sortear, setSortear]=useState(false);
@@ -38,7 +44,8 @@ export default function Groups(){
         setOneGroup(group);
         setidGroup(group._id);
         setNameGroup(group.nome);
-        console.log(idGroup);
+        localStorage.setItem('_id',group._id)
+        console.log(localStorage._id);
         getParticipantes();
     }
     function handleParticipat(oneGroup){
@@ -50,13 +57,36 @@ export default function Groups(){
         localStorage.setItem('_id',idGroup);
         history.push('/editgroup');
     }
+    async function handleDeleteGroup(){
+        setpopup(!popup);
+    }
+    
+    function handleLista(){
+        setpopupDesejo(!popupDesejo);
+    }
+
+    
     return(
         <div className="geral" >
             <NavBar/>
+            {
+                popupDesejo&&<PopUpDesejo/>
+            }
+            {
+                popup&&<PopUp/>
+            }
             <div className="container-groups" >
+                
+ 
                 <section className="groups-container">
                     <section className="title">
-                        <h1>Seus grupos:</h1>
+                        <section>
+                            <FaSync size={20} color="#fff" onClick={()=>window.location.reload(true)}/>
+                        <h1>
+                            Seus grupos: {groups.length}
+                        </h1>
+                        
+                        </section>
                         <button onClick={()=>history.push('/newgroup')}>
                             <FaPlus size={20} color="#037D25"/>
                             Cadastrar Grupo
@@ -68,7 +98,6 @@ export default function Groups(){
                             <li key={group._id} onClick={()=>getDetails(group)}>
                                 <div className='group-header'>
                                     <h2>{group.nome}</h2>                          
-                                    <FaTrash size={20} color="#D62525"/>
                                 </div>
                                 <section>
                                     <FaUserCog size={23} color="#002740"/>
@@ -96,9 +125,10 @@ export default function Groups(){
                         <div className='group-details-header'>
                             <h2>{oneGroup.nome}</h2>  
                             <section>
+                                <FaClipboardList size={23} color="#44231A" onClick={handleLista}/>
                                 <FaUserPlus size={23} color="#099630" onClick={(oneGroup)=>handleParticipat(oneGroup)}/>
                                 <FaEdit size={23} color="#002740" onClick={handleEditGroup}/>
-                                <FaTrash size={20} color="#D62525"/>
+                                <FaTrash size={20} color="#D62525" onClick={handleDeleteGroup}/>
                             </section>                  
                             
                         </div>

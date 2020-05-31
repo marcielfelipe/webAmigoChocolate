@@ -6,6 +6,11 @@
     margin-top: 50px;
     margin-left: 50px;
 }
+.participante-container svg{
+    margin-top: -275px;
+
+}
+
 
 .participante{
     background-color: #004F80;

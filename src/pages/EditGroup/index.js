@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
-import {FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {FaAngleLeft} from 'react-icons/fa';
 import NavBar from  '../../components/navbar';
 import './styles.css';
 import api from '../../services/api';
@@ -9,29 +9,39 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
 export default function EditGroup(){
     const [nome,setNome]=useState('');
     const [dataSorteio,setDataSorteio]=useState('');
     const [dataEvento,setDataEnvento]=useState('');
     const [valorMinimo ,setValorMinimo]=useState('');
     const [valorMaximo ,setValorMaximo]=useState('');
-    
-
-
     const [spinner,setSpinner]= useState(false);
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
+    const history=useHistory();
 
     useEffect(()=>{
         api.get('grupo/'+localStorage._id,auth)
         .then(response=>{
+            setNome(response.data.nome);
+            setDataEnvento(response.data.dataEvento);
+            setDataSorteio(response.data.dataSorteio);
+            setValorMinimo(response.data.valorMinimo);
+            setValorMaximo(response.data.valorMaximo);
         })
     },[localStorage._id]);
+
+    async function handleEditGroup(){
+
+    }
 
 
     return(
         <div >     
             <NavBar/> 
             <div className="container-edit-group">
+                
+                <FaAngleLeft size={50}color="#004F80" onClick={()=>history.goBack()}/>
                 <section className="form-edit-group">
                     <form>
                         <strong>Nome do Grupo:</strong>
@@ -72,7 +82,7 @@ export default function EditGroup(){
 
                         </div>
                         <button type="submit">
-                            {spinner? <Spinner/>:'Cadastrar'}
+                            {spinner? <Spinner/>:'Salvar'}
                         </button>
                     </form>
                 </section>
