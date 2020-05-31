@@ -30,9 +30,18 @@ export default function EditGroup(){
             setValorMaximo(response.data.valorMaximo);
         })
     },[localStorage._id]);
+    const data={
+        _id:localStorage._id,
+        nome,
+        dataSorteio,
+        dataEvento,
+        valorMinimo,
+        valorMaximo
+    }
 
     async function handleEditGroup(){
-
+        const responseEdit=await api.put('grupo',data,auth);
+        history.push('/groups');
     }
 
 
@@ -43,7 +52,7 @@ export default function EditGroup(){
                 
                 <FaAngleLeft size={50}color="#004F80" onClick={()=>history.goBack()}/>
                 <section className="form-edit-group">
-                    <form>
+                    <form onSubmit={handleEditGroup}>
                         <strong>Nome do Grupo:</strong>
                         <input 
                             type="text" 

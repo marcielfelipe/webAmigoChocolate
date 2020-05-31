@@ -17,7 +17,8 @@ export default function PopUp(){
           marginRight           : '-50%',
           transform             : 'translate(-50%, -50%)',
           color                 : '#0076BF',
-          borderColor :'#0076BF'
+          borderColor :'#0076BF',
+          cursor:'pointer'
         }
     }
     const [modalIsOpen,setIsOpen] = React.useState(true);

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Popup from "reactjs-popup";
 import {Link,useHistory} from 'react-router-dom';
-import {FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
 import './styles.css';
@@ -46,7 +46,6 @@ export default function Groups(){
         setNameGroup(group.nome);
         localStorage.setItem('_id',group._id)
         console.log(localStorage._id);
-        getParticipantes();
     }
     function handleParticipat(oneGroup){
         localStorage.setItem('_id',idGroup);
@@ -64,7 +63,10 @@ export default function Groups(){
     function handleLista(){
         setpopupDesejo(!popupDesejo);
     }
-
+    function closeDetails(){
+        setDetails(!Details);
+        localStorage.removeItem('_id');
+    }
     
     return(
         <div className="geral" >
@@ -123,12 +125,19 @@ export default function Groups(){
                     Details && 
                     <div className="groupDetails-container">
                         <div className='group-details-header'>
+                            <FaTimes 
+                                size={23} 
+                                color="#002740" 
+                                onClick={closeDetails} 
+                                style={{marginLeft:'15px',marginTop:'12px'}}
+                            />
                             <h2>{oneGroup.nome}</h2>  
                             <section>
                                 <FaClipboardList size={23} color="#44231A" onClick={handleLista}/>
                                 <FaUserPlus size={23} color="#099630" onClick={(oneGroup)=>handleParticipat(oneGroup)}/>
                                 <FaEdit size={23} color="#002740" onClick={handleEditGroup}/>
                                 <FaTrash size={20} color="#D62525" onClick={handleDeleteGroup}/>
+                                
                             </section>                  
                             
                         </div>
@@ -159,8 +168,8 @@ export default function Groups(){
                                 <strong>Status do Sorteio:</strong>
                                 <p>{oneGroup.status}</p> 
                             </section>
-                            <section>
-                                <FaUsers size={23} color="002740"/>
+                            <section onClick={getParticipantes} style={{cursor:'pointer'}}>
+                                <FaUsers size={23} color="002740" />
                                 <strong>Participantes:</strong>
                             </section>
 
