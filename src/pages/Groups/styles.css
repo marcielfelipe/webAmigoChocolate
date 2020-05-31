@@ -90,7 +90,7 @@
     margin-left: auto;
     margin-right: auto;
     height: 100%;
-    
+    cursor: pointer;
 }
 
 .groups-container ul li div{
@@ -133,8 +133,7 @@
 }
 .groups-container section svg{
     margin-right: 4px;
-
-    
+    cursor: pointer;
 }
 .group-header{
     margin-left: 0px;
@@ -185,6 +184,7 @@
     margin-left: 5px;
     margin-right: 10px;
     background-color:transparent;
+    cursor: pointer;
     
 }
 

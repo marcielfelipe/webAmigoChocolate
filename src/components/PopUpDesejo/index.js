@@ -21,7 +21,12 @@ export default function PopUpDesejo(){
           borderColor :'#0076BF'
         }
     }
-    getLista();
+    useEffect(()=>{
+        api.get('lista/'+localStorage._id,auth)
+        .then(response=>{
+            setLista(response.data);
+        })
+    },[localStorage._id]);
     async function getLista(){
         const response =await api.get('lista/'+localStorage._id,auth)
         setLista(response.data);
@@ -34,8 +39,10 @@ export default function PopUpDesejo(){
         desejo
     }
     async function addListaDesejos(){
-        const responseList = await api.put('/grupo/addlista',dataDejeto,auth);
-        getLista();
+        if(dataDejeto.desejo){
+            const responseList = await api.put('/grupo/addlista',dataDejeto,auth);
+            getLista();
+        }
     }
     function closeModal(){
         setIsOpen(false);
