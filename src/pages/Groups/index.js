@@ -33,6 +33,13 @@ export default function Groups(){
             setGroups(response.data);
         })
     },[localStorage.token]);
+    getGrupos();
+    async function getGrupos(){
+        if(localStorage.sync){
+            const responseGrupos=await api.get('gruposusuario',auth);
+        setGroups(responseGrupos.data);
+        }
+    }
 
     async function getParticipantes(){
         const response =await api.get('participantes/'+idGroup,auth);
@@ -81,7 +88,7 @@ export default function Groups(){
                 <section className="groups-container">
                     <section className="title">
                         <section>
-                            <FaSync size={20} color="#fff" onClick={()=>history.push('/groups')}/>
+                            <FaSync size={20} color="#fff" onClick={getGrupos}/>
                         <h1>
                             Seus grupos: {groups.length}
                         </h1>

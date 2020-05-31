@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Modal from 'react-modal';
 import api from '../../services/api';
 import {FaTimesCircle,FaCheckCircle} from 'react-icons/fa'
@@ -21,12 +21,13 @@ export default function PopUp(){
     }
     const [modalIsOpen,setIsOpen] = React.useState(true);
 
-
     async function deleteGroup(){
         const responseDelete=await api.delete(`grupo/${localStorage._id}`,auth);
+        localStorage.setItem('sync',true);
         setIsOpen(false);
     }
     function closeModal(){
+        localStorage.removeItem('sync');
         setIsOpen(false);
     }
     return(
