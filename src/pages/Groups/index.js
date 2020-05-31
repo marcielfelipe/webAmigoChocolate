@@ -35,7 +35,6 @@ export default function Groups(){
     },[localStorage.token]);
 
     async function getParticipantes(){
-        console.log(dataId);
         const response =await api.get('participantes/'+idGroup,auth);
         setParticipantes(response.data);
     }
@@ -45,7 +44,6 @@ export default function Groups(){
         setidGroup(group._id);
         setNameGroup(group.nome);
         localStorage.setItem('_id',group._id)
-        console.log(localStorage._id);
     }
     function handleParticipat(oneGroup){
         localStorage.setItem('_id',idGroup);

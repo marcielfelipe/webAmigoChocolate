@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {Link,useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {FaAngleLeft} from 'react-icons/fa';
 import NavBar from  '../../components/navbar';
 import './styles.css';
