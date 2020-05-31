@@ -81,7 +81,7 @@ export default function Groups(){
                 <section className="groups-container">
                     <section className="title">
                         <section>
-                            <FaSync size={20} color="#fff" onClick={()=>window.location.reload(true)}/>
+                            <FaSync size={20} color="#fff" onClick={()=>history.push('/groups')}/>
                         <h1>
                             Seus grupos: {groups.length}
                         </h1>
