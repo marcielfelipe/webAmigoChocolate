@@ -33,12 +33,15 @@ export default function Groups(){
             setGroups(response.data);
         })
     },[localStorage.token]);
-    getGrupos();
+    if(localStorage.sync){
+        getGrupos();
+    }
     async function getGrupos(){
-        if(localStorage.sync){
-            const responseGrupos=await api.get('gruposusuario',auth);
+        setDetails(!Details);
+        const responseGrupos=await api.get('gruposusuario',auth);
         setGroups(responseGrupos.data);
-        }
+        localStorage.removeItem('sync');
+                
     }
 
     async function getParticipantes(){
