@@ -1,10 +1,12 @@
-import React,{useState} from 'react';
+import React from 'react';
+import {Link,useHistory} from 'react-router-dom';
 import Modal from 'react-modal';
 import api from '../../services/api';
 import {FaTimesCircle,FaCheckCircle} from 'react-icons/fa'
 import './styles.css';
 
 export default function PopUp(){
+    const history=useHistory();
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
     const customStyles = {
         content : {

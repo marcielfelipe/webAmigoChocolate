@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import Popup from "reactjs-popup";
 import {Link,useHistory} from 'react-router-dom';
 import {FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
@@ -8,8 +7,7 @@ import './styles.css';
 import api from '../../services/api';
 import PopUp from'../../components/PopUp';
 import PopUpDesejo from'../../components/PopUpDesejo';
-
-
+import { parseISO, isAfter, format, formatRelative,formatDistance } from 'date-fns';
 
 export default function Groups(){
     const [popup,setpopup]=useState(false);
@@ -31,17 +29,20 @@ export default function Groups(){
         api.get('gruposusuario',auth)
         .then(response=>{
             setGroups(response.data);
+            data();
         })
     },[localStorage.token]);
-    if(localStorage.sync){
-        getGrupos();
+
+    function data(){
+        const newdateSorteio=parseISO(groups.dataSorteio);
+        groups.dataSorteio=(isAfter(newdateSorteio,new Date()));
     }
+   
+
     async function getGrupos(){
         setDetails(!Details);
         const responseGrupos=await api.get('gruposusuario',auth);
-        setGroups(responseGrupos.data);
-        localStorage.removeItem('sync');
-                
+        setGroups(responseGrupos.data);    
     }
 
     async function getParticipantes(){

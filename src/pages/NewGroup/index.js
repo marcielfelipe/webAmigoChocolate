@@ -6,6 +6,7 @@ import Spinner from '../../components/spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 export default function NewGroup(){
     const [nome,setNome]=useState('');
     const [dataSorteio,setDataSorteio]=useState('');
