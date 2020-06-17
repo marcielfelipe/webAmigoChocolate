@@ -52,6 +52,10 @@ export default function Groups(){
     }
 
     function getDetails(group){
+        setAdmin(false);
+        if(group.criadoPor==localStorage.nome){
+            setAdmin(true);
+        }
         getParticipantes();
         setMostrarParticipantes(!MostrarParticipantes);
         setDetails(true);
@@ -59,9 +63,6 @@ export default function Groups(){
         setidGroup(group._id);
         setNameGroup(group.nome);
         localStorage.setItem('_id',group._id)
-        if(group.criadoPor==localStorage.nome){
-            setAdmin(true);
-        }
     }
     function handleParticipat(oneGroup){
         localStorage.setItem('_id',idGroup);
@@ -291,17 +292,22 @@ export default function Groups(){
                             </section>
                               
                         </section>
-                        
+                        {
+                            !Admin && <section></section>
+                        }  
+                        {
+                            Admin &&
+                            <div className="float-button" 
+                                    onMouseOver={() => setSortear(true)} 
+                                    onMouseOut={() => setSortear(false)} 
+                                    onClick={handleSorteio}    
+                            >
+                                {Sortear ? "Sortear" : ""}
+                                <FaRandom size="20px" />
+                            </div>
+                        }      
 
                          
-                        <div className="float-button" 
-                                onMouseOver={() => setSortear(true)} 
-                                onMouseOut={() => setSortear(false)} 
-                                onClick={handleSorteio}    
-                        >
-                            {Sortear ? "Sortear" : ""}
-                            <FaRandom size="20px" />
-                        </div>
                        
                         
                        
