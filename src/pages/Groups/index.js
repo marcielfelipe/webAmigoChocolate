@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
-import {FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {FaEye,FaUser,FaLock ,FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
 import './styles.css';
@@ -14,12 +14,18 @@ export default function Groups(){
     const [popupDesejo,setpopupDesejo]=useState(false);
     const history=useHistory();
     const [Details, setDetails]=useState(false);
+    const [Admin, setAdmin]=useState(false);
     const [Sortear, setSortear]=useState(false);
+    const [MostrarParticipantes, setMostrarParticipantes]=useState(false);
+    const [MostrarAmigo, setMostrarAmigo]=useState(false);
+    const [MostrarListaAmigo, setMostrarListaAmigo]=useState(false);
+    const [ListaAmigo, setListaAmigo]=useState([]);
     const [groups, setGroups]=useState([]);
     const [oneGroup,setOneGroup]=useState([]);
     const [participantes,setParticipantes]=useState([]);
     const [idGroup,setidGroup]=useState('');
     const [NameGroup,setNameGroup]=useState('');
+    const [Amigo,setAmigo]=useState('');
 
 
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
@@ -29,32 +35,33 @@ export default function Groups(){
         api.get('gruposusuario',auth)
         .then(response=>{
             setGroups(response.data);
-            data();
+            
         })
     },[localStorage.token]);
-
-    function data(){
-        const newdateSorteio=parseISO(groups.dataSorteio);
-        groups.dataSorteio=(isAfter(newdateSorteio,new Date()));
-    }
-   
 
     async function getGrupos(){
         setDetails(!Details);
         const responseGrupos=await api.get('gruposusuario',auth);
-        setGroups(responseGrupos.data);    
+        setGroups(responseGrupos.data);  
     }
 
     async function getParticipantes(){
+        setMostrarParticipantes(!MostrarParticipantes);
         const response =await api.get('participantes/'+idGroup,auth);
         setParticipantes(response.data);
     }
+
     function getDetails(group){
+        getParticipantes();
+        setMostrarParticipantes(!MostrarParticipantes);
         setDetails(true);
         setOneGroup(group);
         setidGroup(group._id);
         setNameGroup(group.nome);
         localStorage.setItem('_id',group._id)
+        if(group.criadoPor==localStorage.nome){
+            setAdmin(true);
+        }
     }
     function handleParticipat(oneGroup){
         localStorage.setItem('_id',idGroup);
@@ -72,9 +79,33 @@ export default function Groups(){
     function handleLista(){
         setpopupDesejo(!popupDesejo);
     }
+    async function handleSorteio(){
+        const responseSorteio = api.get('grupo/sorteio/'+ localStorage._id,auth);
+        atribuirAmigo();
+        
+    }
     function closeDetails(){
         setDetails(!Details);
         localStorage.removeItem('_id');
+    }
+    
+    function atribuirAmigo(){
+        setMostrarAmigo(!MostrarAmigo);
+        participantes.map(item=>{
+            
+            if(item.email==localStorage.email){
+                setAmigo(item.amigo);
+            }
+        })
+    }
+    function getListaAmigo(){
+        setMostrarListaAmigo(!MostrarListaAmigo);
+        participantes.map(part=>{
+            if(part.nome==Amigo){
+                setListaAmigo(part.listaDesejos);
+            }
+        })
+        console.log(ListaAmigo);
     }
     
     return(
@@ -108,7 +139,8 @@ export default function Groups(){
                         {groups.map(group=>(
                             <li key={group._id} onClick={()=>getDetails(group)}>
                                 <div className='group-header'>
-                                    <h2>{group.nome}</h2>                          
+                                    <h2>{group.nome}</h2> 
+                                                           
                                 </div>
                                 <section>
                                     <FaUserCog size={23} color="#002740"/>
@@ -116,9 +148,17 @@ export default function Groups(){
                                     <p>{group.criadoPor}</p>
                                 </section>
                                 <section>
-                                    <FaCalendarAlt size={23} color="002740"/>
-                                    <strong>Data do sorteio:</strong>
-                                    <p>{group.dataSorteio}</p>
+                                    {
+                                        group.status=='Em Aberto' &&
+                                        <FaUnlock size={23} color="002740"/>
+                                    }
+                                    {
+                                        group.status=='Sorteado' &&
+                                        <FaLock size={23} color="002740"/>
+                                    }
+                                    
+                                    <strong>Status do sorteio:</strong>
+                                    <p>{group.status}</p>
                                 </section>
                             </li>
                         ))}
@@ -141,11 +181,22 @@ export default function Groups(){
                                 style={{marginLeft:'15px',marginTop:'12px'}}
                             />
                             <h2>{oneGroup.nome}</h2>  
+                            
                             <section>
-                                <FaClipboardList size={23} color="#44231A" onClick={handleLista}/>
-                                <FaUserPlus size={23} color="#099630" onClick={(oneGroup)=>handleParticipat(oneGroup)}/>
-                                <FaEdit size={23} color="#002740" onClick={handleEditGroup}/>
-                                <FaTrash size={20} color="#D62525" onClick={handleDeleteGroup}/>
+                                {
+                                    !Admin && 
+                                    <FaClipboardList size={23} color="#44231A" onClick={handleLista}/>
+                                }
+                                {
+                                    Admin && 
+                                    <section>
+                                        <FaClipboardList size={23} color="#44231A" onClick={handleLista}/>
+                                        <FaUserPlus size={23} color="#099630" onClick={(oneGroup)=>handleParticipat(oneGroup)}/>
+                                        <FaEdit size={23} color="#002740" onClick={handleEditGroup}/>
+                                        <FaTrash size={20} color="#D62525" onClick={handleDeleteGroup}/>
+                                    </section>
+                                }
+                                
                                 
                             </section>                  
                             
@@ -177,29 +228,83 @@ export default function Groups(){
                                 <strong>Status do Sorteio:</strong>
                                 <p>{oneGroup.status}</p> 
                             </section>
-                            <section onClick={getParticipantes} style={{cursor:'pointer'}}>
+                            <section style={{cursor:'pointer'}}>
                                 <FaUsers size={23} color="002740" />
                                 <strong>Participantes:</strong>
+                                <FaEye size={23} color="077826" onClick={getParticipantes}/>
                             </section>
+                            {
+                                !MostrarParticipantes &&
+                                <div></div>
+                            }       
+                            {
+                                MostrarParticipantes &&
+                                <ul>
+                                    {participantes.map(participante=>(
+                                        <li key={participante._id}>
+                                            <FaUserCircle size={23} color="002740"/>
+                                            <p>{participante.nome}</p>
+                                        </li>
+                                    ))
+                                    }                          
+                                </ul>
 
-                            <ul>
-                                {participantes.map(participante=>(
-                                    <li key={participante._id}>
-                                        <FaUserCircle size={23} color="002740"/>
-                                        <p>{participante.nome}</p>
-                                    </li>
-                                ))
-                                }                          
-                            </ul>
+                            }
+                            <section style={{cursor:'pointer'}}>
+                                <FaUser size={23} color="002740" />
+                                <strong>Amigo: 
+                                    {
+                                        !MostrarAmigo && 
+                                        <p></p>
+                                    }{
+                                        MostrarAmigo &&
+                                        <strong>{Amigo}</strong> 
+                                    }
+                                        
+                                </strong>
+                                
+                                
+                                <FaEye size={23} color="077826" onClick={atribuirAmigo}/>
+                                <FaClipboardList size={23} color="AB1E1E"onClick={getListaAmigo}/>
+                            </section>
+                            <section>
+                                
+                                {
+                                    !MostrarListaAmigo &&
+                                    <p></p>
+                                }
+                                {
+                                    MostrarListaAmigo && 
+                                    <section>
+                                        <ul className='lista-amigo'>
+                                            {ListaAmigo.map(item=>(
+                                                <li>
+                                                    <p>{item}</p>
+                                                </li>
+                                            ))
+                                            }                          
+                                        </ul>
+                                    </section>
+                                    
+                                }
+
+                            </section>
+                              
                         </section>
-                        <Link to="/registerdraw">
-                            <div className="float-button" 
-                                    onMouseOver={() => setSortear(true)} 
-                                    onMouseOut={() => setSortear(false)} >
-                                {Sortear ? "Sortear" : ""}
-                                <FaRandom size="20px" />
-                            </div>
-                        </Link>
+                        
+
+                         
+                        <div className="float-button" 
+                                onMouseOver={() => setSortear(true)} 
+                                onMouseOut={() => setSortear(false)} 
+                                onClick={handleSorteio}    
+                        >
+                            {Sortear ? "Sortear" : ""}
+                            <FaRandom size="20px" />
+                        </div>
+                       
+                        
+                       
                     </div>
                 }
                    

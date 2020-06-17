@@ -31,6 +31,7 @@ export default function Logon(){
             const response = await api.post('login', data);
             if(response.data.auth){
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('email',email);
                 localStorage.setItem('nome',response.data.nome);
                 history.push('/groups');
             }else{
