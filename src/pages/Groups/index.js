@@ -56,7 +56,8 @@ export default function Groups(){
 
     function getDetails(group){
         setAdmin(false);
-        if(group.criadoPor==localStorage.nome){
+        console.log(group);
+        if(group.admin==localStorage.email){
             setAdmin(true);
         }
         getParticipantes();
