@@ -21,6 +21,19 @@
     font-size: 16px;
     cursor: pointer;
 }
+.float-button-undo{
+    position: fixed;
+    bottom: 80px;
+    right:60px;
+    color: #f2f2f2;
+    background-color: #960909;
+    padding: 15px;
+    justify-content: space-between;
+    border-radius: 30px;
+    display: flex;
+    font-size: 16px;
+    cursor: pointer;
+}
 .float-button svg{
     size: 20px;
     font-size: 20px;

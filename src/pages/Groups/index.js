@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link,useHistory} from 'react-router-dom';
-import {FaEye,FaUser,FaLock ,FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit} from 'react-icons/fa';
+import {Undo,FaEye,FaUser,FaLock ,FaTimes,FaClipboardList,FaSync,FaRandom,FaPlus,FaTrash,FaUserCog,FaCalendarAlt,FaCalendarCheck,FaChartLine,FaUnlock,FaUsers,FaUserCircle,FaUserPlus,FaEdit, FaUndo} from 'react-icons/fa';
 import grupoAmigos from '../../assets/grupoAmigos.svg';
 import NavBar from  '../../components/navbar';
 import './styles.css';
@@ -26,6 +26,7 @@ export default function Groups(){
     const [idGroup,setidGroup]=useState('');
     const [NameGroup,setNameGroup]=useState('');
     const [Amigo,setAmigo]=useState('');
+    const [email,setemail]=useState(localStorage.email);
 
 
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
@@ -37,10 +38,12 @@ export default function Groups(){
             setGroups(response.data);
             
         })
-    },[localStorage.token]);
+    },[]);
+
+
 
     async function getGrupos(){
-        setDetails(!Details);
+        setDetails(false);
         const responseGrupos=await api.get('gruposusuario',auth);
         setGroups(responseGrupos.data);  
     }
@@ -81,9 +84,18 @@ export default function Groups(){
         setpopupDesejo(!popupDesejo);
     }
     async function handleSorteio(){
-        const responseSorteio = api.get('grupo/sorteio/'+ localStorage._id,auth);
+        const responseSorteio = await api.get('grupo/sorteio/'+ localStorage._id,auth);
         atribuirAmigo();
+        getGrupos();
         
+    }
+    async function handleDeleteSorteio(){
+        console.log('delete');
+        const data={
+            _id:localStorage._id
+        }
+        const res = await api.put('grupo/sorteio',data,auth);
+        getGrupos();
     }
     function closeDetails(){
         setDetails(!Details);
@@ -108,7 +120,6 @@ export default function Groups(){
         })
         console.log(ListaAmigo);
     }
-    
     return(
         <div className="geral" >
             <NavBar/>
@@ -132,7 +143,7 @@ export default function Groups(){
                         </section>
                         <button onClick={()=>history.push('/newgroup')}>
                             <FaPlus size={20} color="#037D25"/>
-                            Cadastrar Grupo
+                            Cadastrar Sorteio
                         </button>
                     </section>
                    
@@ -279,8 +290,8 @@ export default function Groups(){
                                     <section>
                                         <ul className='lista-amigo'>
                                             {ListaAmigo.map(item=>(
-                                                <li>
-                                                    <p>{item}</p>
+                                                <li key={item._id}>
+                                                    <p>{item.desejo}</p>
                                                 </li>
                                             ))
                                             }                          
@@ -297,19 +308,35 @@ export default function Groups(){
                         }  
                         {
                             Admin &&
-                            <div className="float-button" 
+                            <section>
+                                {
+                                    oneGroup.status=='Em Aberto'&&
+                                    <div className="float-button" 
                                     onMouseOver={() => setSortear(true)} 
                                     onMouseOut={() => setSortear(false)} 
                                     onClick={handleSorteio}    
-                            >
-                                {Sortear ? "Sortear" : ""}
-                                <FaRandom size="20px" />
-                            </div>
-                        }      
+                                    >
+                                        {Sortear ? "Sortear" : ""}
+                                        <FaRandom size="20px" />
+                                    </div>
 
-                         
-                       
-                        
+                                }
+                                {
+                                    oneGroup.status=='Sorteado'&&
+                                    <div className="float-button-undo" 
+                                    onMouseOver={() => setSortear(true)} 
+                                    onMouseOut={() => setSortear(false)} 
+                                    onClick={handleDeleteSorteio}    
+                                    >
+                                        {Sortear ? "Cancelar Sorteio  " : ""}
+                                        <FaUndo size="20px" />
+                                    </div>
+                                }
+                                
+
+                            </section>
+                            
+                        }      
                        
                     </div>
                 }

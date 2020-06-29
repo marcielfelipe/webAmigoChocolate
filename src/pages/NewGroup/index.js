@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import NavBar from  '../../components/navbar';
 import './styles.css';
 import api from  '../../services/api';
@@ -7,13 +8,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
 export default function NewGroup(){
     const [nome,setNome]=useState('');
     const [dataSorteio,setDataSorteio]=useState('');
     const [dataEvento,setDataEnvento]=useState('');
     const [valorMinimo ,setValorMinimo]=useState('');
     const [valorMaximo ,setValorMaximo]=useState('');
-
+    const history=useHistory();
     const [spinner,setSpinner]= useState(false);
     const auth = { headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}};
 
@@ -38,6 +40,7 @@ export default function NewGroup(){
             toast.error('Erro de conexão com o servidor', { position: toast.POSITION.TOP_RIGHT, autoClose: 3000});
         }
         setSpinner(false);
+        history.push('groups');
     }
 
     return(  
@@ -46,7 +49,7 @@ export default function NewGroup(){
             <div className="container-new-group">
                 <section className="form-new-group">
                     <form onSubmit={handleNewGroup}>
-                        <strong>Nome do Grupo:</strong>
+                        <strong>Nome do Sorteio:</strong>
                         <input 
                             type="text" 
                             value={nome}
